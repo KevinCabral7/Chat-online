@@ -1,0 +1,33 @@
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="create-room">
+        {%csrf_token%}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Criar sala</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            Um nome de sala legal pode atrair mais usuários
+          </div>
+          <input type="text" name="title" autofocus class="form-control" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Criar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

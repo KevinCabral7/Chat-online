@@ -1,0 +1,10 @@
+<form class="send-message">
+  {%csrf_token%}
+  <input type="hidden" id="selected-room" name="room_id" />
+  <input
+    type="text"
+    name="message"
+    class="form-control border-1 fs-5"
+    placeholder="Escreva uma mensagem"
+  />
+</form>
