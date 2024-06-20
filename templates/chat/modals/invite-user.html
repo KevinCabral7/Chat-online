@@ -1,0 +1,29 @@
+<div class="modal fade"
+     id="inviteModal"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="invite-user">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Convidar usuário</h1>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">Selecione o usuário</div>
+          <select name="users">
+            {% for u in users %}<option value="{{ u.id }}">{{ u.username }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Convidar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

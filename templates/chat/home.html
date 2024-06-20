@@ -1,42 +1,39 @@
-{%extends 'base.html'%} {%load static%} {%block css%}
-<link rel="stylesheet" href="{%static 'css/chat.css'%}" />
-{%endblock%} {%block content%}
-<div class="d-flex h-100">
-  <!-- Salas -->
-  <div class="chat-rooms h-100 w-25">
-    <div class="rooms m-3">
-      <div class="d-flex justify-content-between">
-        <h3>chat</h3>
-        <button
-          type="button"
-          class="btn btn-transparent mb-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          <i class="bi bi-plus-circle-fill text-primary"></i>
-        </button>
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="d-flex h-100">
+    <!-- Salas -->
+    <div class="chat-rooms h-100 w-25">
+      <div class="rooms m-3">
+        <div class="d-flex justify-content-between">
+          <h3>chat</h3>
+          <button type="button"
+                  class="btn btn-transparent mb-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
+            <i class="bi bi-plus-circle-fill text-primary"></i>
+          </button>
+        </div>
+        {% include 'registration/logout.html' %}
+        <ul class="list-rooms list-group shadow border-0">
+          {% include 'chat/list-rooms.html' %}
+        </ul>
       </div>
-
-      <ul class="list-rooms list-group shadow border-0">
-        {%include 'chat/list-rooms.html'%}
-      </ul>
+    </div>
+    <!-- Mensagens -->
+    <div class="chat-messages h-100 w-75">
+      <!-- Lista de mensagens -->
+      <div class="messages card m-3 p-3 h-75 shadow border-0 overflow-scroll">{% include 'chat/list-messages.html' %}</div>
+      <!-- Input -->
+      <div class="card m-3 shadow border-0">{% include 'chat/send-message.html' %}</div>
     </div>
   </div>
-
-  <!-- Mensagens -->
-  <div class="chat-messages h-100 w-75">
-    <!-- Lista de mensagens -->
-    <div class="messages card m-3 p-3 h-75 shadow border-0 overflow-scroll">
-      {%include 'chat/list-messages.html'%}
-    </div>
-
-    <!-- Input -->
-    <div class="card m-3 shadow border-0">
-      {%include 'chat/send-message.html'%}
-    </div>
-  </div>
-</div>
-
-{%include 'chat/modals/create-room.html'%} {%endblock%} {%block js%}
-<script type="text/javascript" defer src="{% static 'js/script.js'%}"></script>
-{%endblock%}
+  {% include 'chat/modals/invite-user.html' %}
+  {% include 'chat/modals/create-room.html' %}
+{% endblock %}
+{% block js %}
+  <script src="{% static 'js/script.js'%}"></script>
+{% endblock %}

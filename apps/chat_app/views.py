@@ -1,11 +1,24 @@
 import json
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from chat import settings
 from .models import Message, Room
 from django.views.generic.detail import DetailView
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group, User
+
 def home(request):
-    rooms = Room.objects.all().order_by('-created_at')
+    if not request.user.is_authenticated:
+        return redirect(settings.LOGOUT_REDIRECT_URL)
+    User = get_user_model()
+    users = User.objects.all()
+    user_groups = []
+    for g in request.user.groups.all():
+        user_groups.append(g.id)
+    rooms = Room.objects.filter(group__in=user_groups)  
     return render(request, 'chat/home.html', {
-        'rooms': rooms
+        'rooms': rooms,
+        'users': users
         })
 
 class RoomDetailView(DetailView):
@@ -27,7 +40,18 @@ def send_message(request, pk):
 
 def create_room(request):
     data = json.loads(request.body)
-    room = Room.objects.create(user=request.user, title=data['title'])
+    group = Group.objects.create(name = data['title'])
+    group.user_set.add(request.user)
+    room = Room.objects.create(user=request.user, title=data['title'], group=group)
     return render(request, 'chat/room.html', {
         'r': room
     })
+
+def invite_user(request, pk):
+    data = json.loads(request.body)
+    room = Room.objects.get(id=pk)
+    user_id = int(data['users'])
+    user = User.objects.get(id=user_id)
+    group = room.group
+    group.user_set.add(user)
+    return HttpResponse('a')
